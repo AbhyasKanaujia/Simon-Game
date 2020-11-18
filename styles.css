@@ -5,9 +5,15 @@ body {
 
 #level-title {
   font-family: 'Press Start 2P', cursive;
-  font-size: 3rem;
-  margin:  5%;
+  font-size: 2rem;
+  margin:  5% 5% 2%;
   color: #FEF2BF;
+}
+
+#high-score {
+  font-family: 'Press Start 2P', cursive;
+  color: #FEF2BF;
+  margin-bottom: 3%;
 }
 
 .container {
@@ -18,12 +24,16 @@ body {
 }
 
 .btn {
+  cursor: grab;
   margin: 25px;
   display: inline-block;
-  height: 200px;
-  width: 200px;
+  height: 150px;
+  width: 150px;
   border: 10px solid black;
   border-radius: 20%;
+  font-size: 8rem;
+  font-family: 'Press Start 2P', cursive;
+  
 }
 
 .game-over {

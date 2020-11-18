@@ -4,11 +4,13 @@ let gamePattern = [];
 let userClickedPattern = [];
 let level = -1;
 let inputCount = -1;
+let highScore = 0;
 
 function nextSequence() {
     // next level
     level++;
     $("#level-title").text(`level ${level}`);
+    updateHighScore();
 
     // reset user input
     userClickedPattern = [];
@@ -24,21 +26,7 @@ function nextSequence() {
     playSound(randomColorChoosen);
 }
 
-function checkAnswer(lastResponse) {/*
-    // was last response correct?
-    if (lastResponse == gamePattern[gamePattern.length - 1]) {
-        // was the last sequence correct?
-        let matched = true;
-        for (let i = 0; i < level; i++)
-            if (userClickedPattern[i] != gamePattern[i])
-                matched = false;
-        if (matched)
-            setTimeout(function () {
-                nextSequence();
-            }, 1000);
-        else
-            console.log("Failed");
-    }*/
+function checkAnswer(lastResponse) {
     let match = true;
     for (let i = 0; i <= inputCount; i++)
         if (gamePattern[i] != userClickedPattern[i]) {
@@ -66,6 +54,13 @@ function checkAnswer(lastResponse) {/*
 
 }
 
+function updateHighScore() {
+    if (highScore < level) {
+        highScore = level;
+        $("#high-score").text(`High Score: ${highScore}`);
+    }
+}
+
 function startOver() {
     gameStarted = false;
     gamePattern = [];
@@ -85,9 +80,38 @@ function animatePress(color) {
     }, 100);
 }
 
+
+// handle mouse events
 $(".btn").on("click", function (e) {
     // add the color clicked by the user to userClickedPattern[]
     let userChosenColor = $(this).attr("id");
+    handleInput(userChosenColor);
+});
+
+// handle keyboard events
+$(document).keypress(function (e) {
+    if (!gameStarted) {
+        nextSequence();
+        gameStarted = true;
+    } else {
+        switch (e.key) {
+            case "7":
+                handleInput("green");
+                break;
+            case "9":
+                handleInput("red");
+                break;
+            case "1":
+                handleInput("yellow");
+                break;
+            case "3":
+                handleInput("blue");
+                break;
+        }
+    }
+});
+
+function handleInput(userChosenColor) {
     userClickedPattern.push(userChosenColor);
     inputCount++;
 
@@ -95,11 +119,7 @@ $(".btn").on("click", function (e) {
     playSound(userChosenColor);
     animatePress(userChosenColor);
     checkAnswer(userChosenColor);
-});
+}
 
-$(document).keypress(function () {
-    if (!gameStarted) {
-        nextSequence();
-        gameStarted = true;
-    }
-});
+
+
